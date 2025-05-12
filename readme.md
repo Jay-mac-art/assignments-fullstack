@@ -1,139 +1,181 @@
-# E-commerce Store with Discount System
+# Interview Generator Full-Stack Application
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Build Status](https://img.shields.io/badge/Build-Dev-green)]()
 
-A full-stack e-commerce application with cart functionality and automated discount code generation system.
+A modern interview question generator that leverages user profiles and AI to produce tailored technical questions. Built with a **React + Vite** frontend and a **NestJS + TypeORM** backend, integrating with OpenRouter LLM for smart question generation.
+
+---
+
+## Table of Contents
+
+1. [Features](#features)
+2. [Tech Stack](#tech-stack)
+3. [Project Structure](#project-structure)
+4. [Getting Started](#getting-started)
+
+   * [Prerequisites](#prerequisites)
+   * [Environment Variables](#environment-variables)
+   * [Backend Setup](#backend-setup)
+   * [Frontend Setup](#frontend-setup)
+5. [Usage](#usage)
+
+   * [Authentication Flow](#authentication-flow)
+   * [Profile Management](#profile-management)
+   * [Generating Questions](#generating-questions)
+6. [API Endpoints](#api-endpoints)
+7. [License](#license)
+
+---
 
 ## Features
 
-### Core Functionality
-- 🛒 Add items to cart
-- 💳 Checkout system with order validation
-- 🎟️ Automated discount code generation (every nth order)
-- ✅ Discount code validation during checkout
-- 📊 Admin dashboard with sales statistics
+* 🔒 JWT-based authentication (login, register, logout)
+* 📝 Editable user profile (skills, technologies, bio)
+* 🤖 AI-driven question generation with configurable count, skills, and experience level
+* 🎨 Sleek UI with animations (Framer Motion, TailwindCSS)
+* 🌐 CORS-enabled NestJS API with global `/api` prefix
 
-### Admin Features
-- 📈 View sales statistics (total items, revenue, discounts)
-- 🔢 Configure nth order threshold for discounts
-- 🏷️ Generate new discount codes manually
-- 📋 List all active/redeemed discount codes
+---
 
-## Technologies Used
+## Tech Stack
 
-### Backend
-- **Nest.js** with **Typeorm.js**
-- **TypeScript** for type safety
-- **Jest** for unit testing
-- Postgres 
+| Layer      | Technology              |
+| ---------- | ----------------------- |
+| Frontend   | React, Vite, TypeScript |
+| Styling    | TailwindCSS             |
+| Animations | Framer Motion           |
+| Backend    | NestJS, TypeScript      |
+| ORM        | TypeORM (PostgreSQL)    |
+| AI         | OpenRouter LLM          |
+| Auth       | JWT                     |
 
-### Frontend
-- **ReactVite** with **TypeScript**
-- **Tailwind CSS** for styling
-- **Axios** for API communication
-- **React Router** for navigation
+---
 
-## Project Structure FE 
+## Project Structure
+
 ```
-└── 📁src
-    └── 📁components
-        └── Navbar.tsx
-        └── ProductCard.tsx
-    └── 📁pages
-        └── Admin.tsx
-        └── Cart.tsx
-        └── Checkout.tsx
-        └── Home.tsx
-        └── Login.tsx
-        └── Register.tsx
-    └── 📁store
-        └── useStore.ts
-    └── 📁types
-        └── index.ts
-    └── App.tsx
-    └── index.css
-    └── main.tsx
-    └── vite-env.d.ts
-```
-## Project Structure BE
-```
-└── 📁src
-    └── 📁decorator
-        └── auth.decorator.ts
-        └── user.decorator.ts
-    └── 📁entities
-        └── configuration.entity.ts
-        └── discountCode.entity.ts
-        └── order.entity.ts
-        └── orderItem.entity.ts
-        └── user.entity.ts
-    └── 📁guard
-        └── jwt.guard.ts
-        └── role.guard.ts
-    └── 📁module
-        └── 📁admin
-            └── admin.controller.ts
-            └── admin.module.ts
-            └── admin.service.ts
-            └── 📁dto
-                └── admin.dto.ts
-        └── 📁auth
-            └── auth.controller.ts
-            └── auth.module.ts
-            └── auth.service.ts
-            └── 📁dto
-                └── auth.dto.ts
-        └── 📁checkout
-            └── checkout.controller.ts
-            └── checkout.module.ts
-            └── checkout.service.ts
-            └── 📁dto
-                └── checkout.dto.ts
-    └── app.controller.spec.ts
-    └── app.controller.ts
-    └── app.module.ts
-    └── app.service.ts
-    └── main.controller.spec.ts
-    └── main.ts
+/                  # Root
+├── client/        # Frontend (Vite + React)
+│   ├── .env       # VITE_BE_API_URL
+│   ├── src/
+│   │   ├── assets/           # Static files (images)
+│   │   ├── components/       # Reusable UI components
+│   │   ├── context/          # AuthContext
+│   │   ├── pages/            # Page-level views
+│   │   ├── store/            # Zustand store (optional)
+│   │   └── types/            # TypeScript types
+│   ├── index.html            # HTML template
+│   └── vite.config.ts        # Vite configuration
+│
+├── server/        # Backend (NestJS)
+│   ├── .env       # DB & service keys
+│   ├── src/
+│   │   ├── entities/         # TypeORM entities
+│   │   ├── guard/            # Guards (JWT, Roles)
+│   │   ├── decorator/        # Custom decorators
+│   │   ├── module/
+│   │   │   ├── auth/         # Auth module (controller, service, DTOs)
+│   │   │   └── generate_interviews/  # Question generation module
+│   │   ├── app.module.ts     # Root module
+│   │   └── main.ts           # Bootstrap & CORS
+│   └── nest-cli.json         # Nest CLI config
+│
+├── test/           # E2E & unit tests
+│
+└── README.md       # Project README
 ```
 
-Set Up Env File Run BE Server and Install npm dependecy
+---
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js v16+
-- npm v8+
-- Git
+
+* Node.js ≥ 22.x
+* npm ≥ 10.7.0.x
+* PostgreSQL database
+
+### Environment Variables
+
+Create a `.env` based on `sample.env` in **both** `/server` and `/client`:
+
+#### Server (`/server/.env`)
+
+```env
+DB_PORT=5432
+DB_DATABASE=interview_db
+DB_USERNAME=postgres
+DB_PASSWORD=secret
+
+JWT_SECRET_SERVICE=supersecretkey
+OPENROUTER_API_KEY=your_openrouter_key
+PORT=3000
+```
+
+#### Client (`/client/.env`)
+
+```env
+VITE_BE_API_URL=http://localhost:3000
+```
+
+### Backend Setup
+
+```bash
+cd server
+npm install
+npm run start:dev   # starts NestJS with live reload
+```
+
+Logs will show CORS enabled and API available at `http://localhost:3000/api`.
 
 ### Frontend Setup
 
-1. **Navigate to backend directory**
-   ```bash
+```bash
+cd client
+npm install
+npm run dev        # starts Vite dev server
+```
 
+Frontend runs at `http://localhost:5173` by default.
 
-    Install dependencies
-     npm install
+---
 
-    Start development server
-    npm run dev
+## Usage
 
+### Authentication Flow
 
-  ```bash
+1. **Register** via `/register` page: stores user and issues JWT.
+2. **Login** via `/login` page: saves `access_token` in `localStorage`.
+3. Navbar adapts to show Profile / Generate / Update links when token exists.
 
-## Getting Started
+### Profile Management
 
-### Prerequisites
-- Node.js v16+
-- npm v8+
-- Git
+* Navigate to **Update Profile**. Form loads existing data.
+* Edit **skills**, **technologies** via tag inputs, update **bio**, **password**.
+* On save, client merges old/new tags, sends PATCH to `/api/auth/update`, then shows toast.
 
-### Backend Setup Add Pgsql connection profile and env varaibles
+### Generating Questions
 
-    npm install
+1. Go to **Generate** page.
+2. Adjust **number of questions**, **skills**, **technologies**, **experience level**.
+3. Click **Generate Questions**: loader appears, then cards animate in.
+4. Scroll or click **Edit** button to return to form.
 
-    Start development server
-    npm run dev
+---
 
-    Run tests
-    npm test
+## API Endpoints
+
+| Method | Route                        | Description                         |
+| ------ | ---------------------------- | ----------------------------------- |
+| POST   | `/api/auth/register`         | Create a new user                   |
+| POST   | `/api/auth/login`            | Authenticate & return JWT           |
+| GET    | `/api/auth/user`             | Return current user profile         |
+| PATCH  | `/api/auth/update`           | Update profile fields               |
+| POST   | `/api/ai/generate-questions` | Generate interview questions via AI |
+
+---
+
+## License
+
+This project is MIT licensed. See [LICENSE](LICENSE) for details.
