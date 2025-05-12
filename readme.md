@@ -1,56 +1,139 @@
-Welcome to our technical assessment repository! This collection of challenges is designed to evaluate your ability to build AI-powered recruitment tools that solve real-world problems.
+# E-commerce Store with Discount System
 
-## Instructions
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-1. Review the challenges below
-2. Choose ONE that best matches your skills and interests
-3. Fork this repository and implement your solution
-4. Submit a pull request with your completed challenge
+A full-stack e-commerce application with cart functionality and automated discount code generation system.
 
-## About Our Platform
+## Features
 
-We are building an Agentic recruitment platform with specialized agents that automate key aspects of the hiring process. Our technology stack includes React, Node.js, TypeScript, and modern AI/LLM integrations.
+### Core Functionality
+- 🛒 Add items to cart
+- 💳 Checkout system with order validation
+- 🎟️ Automated discount code generation (every nth order)
+- ✅ Discount code validation during checkout
+- 📊 Admin dashboard with sales statistics
 
-## Challenge Options
+### Admin Features
+- 📈 View sales statistics (total items, revenue, discounts)
+- 🔢 Configure nth order threshold for discounts
+- 🏷️ Generate new discount codes manually
+- 📋 List all active/redeemed discount codes
 
-Choose ONE of the following challenges:
+## Technologies Used
 
-### [Advanced Candidate Matching System](./candidate-matcher.md)
-Design an intelligent system that matches candidates to jobs by understanding skill equivalence, experience depth, and potential fit.
+### Backend
+- **Nest.js** with **Typeorm.js**
+- **TypeScript** for type safety
+- **Jest** for unit testing
+- Postgres 
 
-### [Intelligent Resume Parser](./resume-analyzer.md)
-Build a system that extracts structured, validated data from unstructured resume content.
+### Frontend
+- **ReactVite** with **TypeScript**
+- **Tailwind CSS** for styling
+- **Axios** for API communication
+- **React Router** for navigation
 
-### [Candidate Engagement Chatbot](./candidate-engagement-bot.md)
-Create a conversational agent that provides job information while qualifying candidates through natural dialogue.
+## Project Structure FE 
+```
+└── 📁src
+    └── 📁components
+        └── Navbar.tsx
+        └── ProductCard.tsx
+    └── 📁pages
+        └── Admin.tsx
+        └── Cart.tsx
+        └── Checkout.tsx
+        └── Home.tsx
+        └── Login.tsx
+        └── Register.tsx
+    └── 📁store
+        └── useStore.ts
+    └── 📁types
+        └── index.ts
+    └── App.tsx
+    └── index.css
+    └── main.tsx
+    └── vite-env.d.ts
+```
+## Project Structure BE
+```
+└── 📁src
+    └── 📁decorator
+        └── auth.decorator.ts
+        └── user.decorator.ts
+    └── 📁entities
+        └── configuration.entity.ts
+        └── discountCode.entity.ts
+        └── order.entity.ts
+        └── orderItem.entity.ts
+        └── user.entity.ts
+    └── 📁guard
+        └── jwt.guard.ts
+        └── role.guard.ts
+    └── 📁module
+        └── 📁admin
+            └── admin.controller.ts
+            └── admin.module.ts
+            └── admin.service.ts
+            └── 📁dto
+                └── admin.dto.ts
+        └── 📁auth
+            └── auth.controller.ts
+            └── auth.module.ts
+            └── auth.service.ts
+            └── 📁dto
+                └── auth.dto.ts
+        └── 📁checkout
+            └── checkout.controller.ts
+            └── checkout.module.ts
+            └── checkout.service.ts
+            └── 📁dto
+                └── checkout.dto.ts
+    └── app.controller.spec.ts
+    └── app.controller.ts
+    └── app.module.ts
+    └── app.service.ts
+    └── main.controller.spec.ts
+    └── main.ts
+```
 
-### [Technical Interview Question Generator](./interview-generator.md)
-Develop a tool that generates tailored technical interview questions with appropriate difficulty calibration.
+Set Up Env File Run BE Server and Install npm dependecy
 
-## Evaluation Criteria
+## Getting Started
 
-Regardless of which challenge you choose, we'll evaluate your submission on:
+### Prerequisites
+- Node.js v16+
+- npm v8+
+- Git
 
-1. **Problem Solving**: How you approach and decompose a complex problem
-2. **AI Integration**: Strategic use of LLMs beyond simple prompt engineering
-3. **Code Quality**: Structure, readability, and maintainability
-4. **System Design**: Architecture decisions and technical tradeoffs
-5. **Functionality**: Effectiveness of your solution for the intended use case
+### Frontend Setup
 
-## Time Expectation
+1. **Navigate to backend directory**
+   ```bash
 
-Each challenge is designed to take approximately 4-8 hours. We value your time and don't expect a production-ready system. Focus on demonstrating your approach and technical thinking rather than perfecting every detail.
 
-## Submission Process
+    Install dependencies
+     npm install
 
-1. Fork this repository
-2. Create a new branch with a descriptive name (`your-name-solution`)
-3. Implement your solution
-4. Submit a pull request with a summary of your approach
-5. Include setup instructions in your README
+    Start development server
+    npm run dev
 
-We're excited to see your creative solutions to these challenges!
 
-## Questions?
+  ```bash
 
-If you have questions about the assignment, please open an issue in this repository.
+## Getting Started
+
+### Prerequisites
+- Node.js v16+
+- npm v8+
+- Git
+
+### Backend Setup Add Pgsql connection profile and env varaibles
+
+    npm install
+
+    Start development server
+    npm run dev
+
+    Run tests
+    npm test
